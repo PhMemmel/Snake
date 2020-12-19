@@ -13,21 +13,21 @@ public class Snake {
         direction = Direction.RIGHT;
         snakeParts = new ArrayList<>();
         SnakePart snakePart = new SnakePart();
-        snakePart.setPosition(4,2);
+        snakePart.setPosition(4, 2);
         snakeParts.add(snakePart);
         snakePart = new SnakePart();
-        snakePart.setPosition(3,2);
+        snakePart.setPosition(3, 2);
         snakeParts.add(snakePart);
         snakePart = new SnakePart();
-        snakePart.setPosition(2,2);
+        snakePart.setPosition(2, 2);
         snakeParts.add(snakePart);
     }
 
 
     public void move() {
 
-        Iterator iterator = snakeParts.iterator();
-        SnakePart snakeHead = (SnakePart) iterator.next();
+        Iterator<SnakePart> iterator = snakeParts.iterator();
+        SnakePart snakeHead = iterator.next();
         int snakeHeadX = snakeHead.getX();
         int snakeHeadY = snakeHead.getY();
         switch (direction) {
@@ -43,13 +43,13 @@ public class Snake {
             case RIGHT:
                 snakeHead.setX(snakeHead.getX() + 1);
         }
-        SnakePart secondSnakePart = (SnakePart) iterator.next();
+        SnakePart secondSnakePart = iterator.next();
         int lastPositionX = secondSnakePart.getX();
         int lastPositionY = secondSnakePart.getY();
         secondSnakePart.setX(snakeHeadX);
         secondSnakePart.setY(snakeHeadY);
         while (iterator.hasNext()) {
-            SnakePart snakePart = (SnakePart) iterator.next();
+            SnakePart snakePart = iterator.next();
 
             snakePart.setX(lastPositionX);
             snakePart.setY(lastPositionY);
