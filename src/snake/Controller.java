@@ -1,27 +1,32 @@
 package snake;
 
-import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class Controller implements PropertyChangeListener {
 
     private boolean running = false;
-    private SnakeCanvas snakeCanvas;
-    private Snake snake;
+    private final SnakeCanvas snakeCanvas;
+    private final Snake snake;
+    private Frog frog;
 
 
-    public Controller(SnakeCanvas snakeCanvas, Snake snake) {
+    public Controller(SnakeCanvas snakeCanvas, Snake snake, Frog frog) {
         this.snakeCanvas = snakeCanvas;
         snakeCanvas.addPropertyChangeListener(this);
         this.snake = snake;
-
+        this.frog = frog;
 
     }
 
     public void start() {
+        /*
+         * neccessary, cause some information (width, height) cannot be accessed by canvas
+         * while still being initialized
+         */
+        snakeCanvas.init();
+        frog.setRandomPosition(snakeCanvas.getGridWidth(), snakeCanvas.getGridHeight());
+
         running = true;
 
         while (running) {
@@ -37,6 +42,6 @@ public class Controller implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        snake.setDirection((int)evt.getNewValue());
+        snake.setDirection((int) evt.getNewValue());
     }
 }

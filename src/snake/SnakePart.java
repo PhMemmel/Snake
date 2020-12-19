@@ -1,7 +1,6 @@
 package snake;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 
 public class SnakePart {
     private int x;

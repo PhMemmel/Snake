@@ -11,27 +11,34 @@ import java.beans.PropertyChangeSupport;
 public class SnakeCanvas extends Canvas implements KeyListener {
 
     private final int gridSize;
-    int lastKey;
+    private final Frog frog;
+    private int paintedWidth;
+    private int paintedHeight;
+    private int lastKey;
 
     Snake snake;
 
-    private PropertyChangeSupport changes = new PropertyChangeSupport( this );
+    private final PropertyChangeSupport changes = new PropertyChangeSupport(this);
 
 
-    public SnakeCanvas(int gridSize, Snake snake) {
+    public SnakeCanvas(int gridSize, Snake snake, Frog frog) {
         this.gridSize = gridSize;
         this.snake = snake;
+        this.frog = frog;
         setBackground(Color.lightGray);
         addKeyListener(this);
+    }
+
+    public void init() {
+        paintedWidth = getWidth() - (getWidth() % gridSize);
+        paintedHeight = getHeight() - (getHeight() % gridSize);
     }
 
     @Override
     public void paint(Graphics g) {
 
-        Graphics2D g2 = (Graphics2D) g;
 
-        int paintedWidth = getWidth() - (getWidth() % gridSize);
-        int paintedHeight = getHeight() - (getHeight() % gridSize);
+        Graphics2D g2 = (Graphics2D) g;
 
         /*g2.setColor(Color.gray);
         // paint horizontal lines
@@ -50,9 +57,14 @@ public class SnakeCanvas extends Canvas implements KeyListener {
             g2.fill(new Ellipse2D.Double(snakePart.getX() * gridSize, snakePart.getY() * gridSize, gridSize, gridSize));
         }
 
+        g2.setColor(frog.getColor());
+        g2.draw(new Ellipse2D.Double(frog.getX() * gridSize, frog.getY() * gridSize, gridSize, gridSize));
+        g2.fill(new Ellipse2D.Double(frog.getX() * gridSize, frog.getY() * gridSize, gridSize, gridSize));
+
     }
 
     public void update() {
+
 
         repaint();
         paint(getGraphics());
@@ -66,10 +78,9 @@ public class SnakeCanvas extends Canvas implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
-        if (lastKey == e.getKeyCode()) {
-            return;
-        } else {
-            changes.firePropertyChange("key", lastKey, e.getKeyCode() );
+        if (lastKey != e.getKeyCode()) {
+            changes.firePropertyChange("key", lastKey, e.getKeyCode());
+            lastKey = e.getKeyCode();
         }
 
     }
@@ -80,14 +91,19 @@ public class SnakeCanvas extends Canvas implements KeyListener {
     }
 
 
-    public void addPropertyChangeListener( PropertyChangeListener l )
-    {
-        changes.addPropertyChangeListener( l );
+    public void addPropertyChangeListener(PropertyChangeListener l) {
+        changes.addPropertyChangeListener(l);
     }
 
-    public void removePropertyChangeListener( PropertyChangeListener l )
-    {
-        changes.removePropertyChangeListener( l );
+    public void removePropertyChangeListener(PropertyChangeListener l) {
+        changes.removePropertyChangeListener(l);
     }
 
+    public int getGridWidth() {
+        return paintedWidth / gridSize;
+    }
+
+    public int getGridHeight() {
+        return paintedHeight / gridSize;
+    }
 }

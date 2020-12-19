@@ -1,8 +1,6 @@
 package snake;
 
 import javax.swing.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class Main {
 
@@ -11,11 +9,13 @@ public class Main {
     public static void main(String[] args) {
 
         Snake snake = new Snake();
+        Frog frog = new Frog();
+
 
         // initialize view
-        SnakeCanvas snakeCanvas = new SnakeCanvas(gridSize, snake);
+        SnakeCanvas snakeCanvas = new SnakeCanvas(gridSize, snake, frog);
         // initialize controller
-        Controller controller = new Controller(snakeCanvas, snake);
+        Controller controller = new Controller(snakeCanvas, snake, frog);
 
 
         JFrame frame = new JFrame();
@@ -23,6 +23,7 @@ public class Main {
         frame.add(snakeCanvas);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+
 
         controller.start();
     }
