@@ -78,6 +78,15 @@ public class SnakeCanvas extends Canvas implements KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
+        // avoid reacting to other keys than arrow keys
+        if (e.getKeyCode() != KeyEvent.VK_UP
+                && e.getKeyCode() != KeyEvent.VK_DOWN
+                && e.getKeyCode() != KeyEvent.VK_LEFT
+                && e.getKeyCode() != KeyEvent.VK_RIGHT) {
+            return;
+        }
+
+
         if (lastKey != e.getKeyCode()) {
             changes.firePropertyChange("key", lastKey, e.getKeyCode());
             lastKey = e.getKeyCode();
