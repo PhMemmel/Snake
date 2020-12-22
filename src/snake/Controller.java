@@ -37,7 +37,10 @@ public class Controller implements PropertyChangeListener {
             }
 
             if (snake.getSnakeParts().get(0).getX() == frog.getX() && snake.getSnakeParts().get(0).getY() == frog.getY()) {
-                frog.setRandomPosition(snakeCanvas.getGridWidth(), snakeCanvas.getGridHeight());
+                do {
+                    frog.setRandomPosition(snakeCanvas.getGridWidth(), snakeCanvas.getGridHeight());
+                } while (snake.getSnakeParts().stream().anyMatch(e -> e.getX() == frog.getX() && e.getY() == frog.getY()));
+
                 snake.increaseSnakeLength();
             }
 

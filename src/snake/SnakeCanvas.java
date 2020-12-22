@@ -53,12 +53,10 @@ public class SnakeCanvas extends Canvas implements KeyListener {
 
         for (SnakePart snakePart : snake.getSnakeParts()) {
             g2.setColor(snakePart.getColor());
-            g2.draw(new Ellipse2D.Double(snakePart.getX() * gridSize, snakePart.getY() * gridSize, gridSize, gridSize));
             g2.fill(new Ellipse2D.Double(snakePart.getX() * gridSize, snakePart.getY() * gridSize, gridSize, gridSize));
         }
 
         g2.setColor(frog.getColor());
-        g2.draw(new Ellipse2D.Double(frog.getX() * gridSize, frog.getY() * gridSize, gridSize, gridSize));
         g2.fill(new Ellipse2D.Double(frog.getX() * gridSize, frog.getY() * gridSize, gridSize, gridSize));
 
     }

@@ -53,7 +53,8 @@ public class Snake {
     }
 
     public void increaseSnakeLength() {
-        snakeParts.add(new SnakePart());
+        snakeParts.add(new SnakePart(snakeParts.get(snakeParts.size() - 1).getX(),
+                snakeParts.get(snakeParts.size() - 1).getY()));
     }
 
     public boolean isBitingItself() {
