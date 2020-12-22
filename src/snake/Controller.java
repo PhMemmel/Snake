@@ -21,7 +21,7 @@ public class Controller implements PropertyChangeListener {
 
     public void start() {
         /*
-         * neccessary, cause some information (width, height) cannot be accessed by canvas
+         * necessary, cause some information (width, height) cannot be accessed by canvas
          * while still being initialized
          */
         snakeCanvas.init();
@@ -31,6 +31,16 @@ public class Controller implements PropertyChangeListener {
 
         while (running) {
             snake.move();
+            if (snake.isBitingItself() || snakeCrashesIntoWall()) {
+                System.out.println("Game over!");
+                System.exit(0);
+            }
+
+            if (snake.getSnakeParts().get(0).getX() == frog.getX() && snake.getSnakeParts().get(0).getY() == frog.getY()) {
+                frog.setRandomPosition(snakeCanvas.getGridWidth(), snakeCanvas.getGridHeight());
+                snake.increaseSnakeLength();
+            }
+
             snakeCanvas.update();
             try {
                 Thread.sleep(100);
@@ -38,6 +48,13 @@ public class Controller implements PropertyChangeListener {
                 e.printStackTrace();
             }
         }
+    }
+
+    private boolean snakeCrashesIntoWall() {
+        SnakePart snakeHead = snake.getSnakeParts().get(0);
+
+        return snakeHead.getX() >= snakeCanvas.getGridWidth() || snakeHead.getX() < 0
+                || snakeHead.getY() >= snakeCanvas.getGridHeight() || snakeHead.getY() < 0;
     }
 
     @Override

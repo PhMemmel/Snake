@@ -1,62 +1,46 @@
 package snake;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Snake {
 
     ArrayList<SnakePart> snakeParts;
     private Direction direction;
 
-
     public Snake() {
         direction = Direction.RIGHT;
         snakeParts = new ArrayList<>();
-        SnakePart snakePart = new SnakePart();
-        snakePart.setPosition(4, 2);
-        snakeParts.add(snakePart);
-        snakePart = new SnakePart();
-        snakePart.setPosition(3, 2);
-        snakeParts.add(snakePart);
-        snakePart = new SnakePart();
-        snakePart.setPosition(2, 2);
-        snakeParts.add(snakePart);
+        snakeParts.add(new SnakePart(5, 5));
+        snakeParts.add(new SnakePart());
+        snakeParts.add(new SnakePart());
     }
 
-
     public void move() {
-
-        Iterator<SnakePart> iterator = snakeParts.iterator();
-        SnakePart snakeHead = iterator.next();
-        int snakeHeadX = snakeHead.getX();
-        int snakeHeadY = snakeHead.getY();
+        /*
+         * set new snake head position according to current direction
+         */
+        SnakePart snakeHead = snakeParts.get(0);
         switch (direction) {
             case UP:
-                snakeHead.setY(snakeHead.getY() - 1);
+                snakeHead.setPosition(snakeHead.getX(), snakeHead.getY() - 1);
                 break;
             case DOWN:
-                snakeHead.setY(snakeHead.getY() + 1);
+                snakeHead.setPosition(snakeHead.getX(), snakeHead.getY() + 1);
                 break;
             case LEFT:
-                snakeHead.setX(snakeHead.getX() - 1);
+                snakeHead.setPosition(snakeHead.getX() - 1, snakeHead.getY());
                 break;
             case RIGHT:
-                snakeHead.setX(snakeHead.getX() + 1);
-        }
-        SnakePart secondSnakePart = iterator.next();
-        int lastPositionX = secondSnakePart.getX();
-        int lastPositionY = secondSnakePart.getY();
-        secondSnakePart.setX(snakeHeadX);
-        secondSnakePart.setY(snakeHeadY);
-        while (iterator.hasNext()) {
-            SnakePart snakePart = iterator.next();
-
-            snakePart.setX(lastPositionX);
-            snakePart.setY(lastPositionY);
-            lastPositionX = snakePart.getX();
-            lastPositionY = snakePart.getY();
+                snakeHead.setPosition(snakeHead.getX() + 1, snakeHead.getY());
         }
 
+        /*
+         * all other snake parts: jump to old position of predecessor
+         */
+        for (int i = 1; i < snakeParts.size(); i++) {
+            snakeParts.get(i).setPosition(snakeParts.get(i - 1).getOldX(), snakeParts.get(i - 1).getOldY());
+
+        }
 
     }
 
@@ -66,5 +50,23 @@ public class Snake {
 
     public void setDirection(int keyCode) {
         this.direction = Direction.getDirection(keyCode);
+    }
+
+    public void increaseSnakeLength() {
+        snakeParts.add(new SnakePart());
+    }
+
+    public boolean isBitingItself() {
+        boolean isBiting = false;
+        SnakePart snakeHead = snakeParts.get(0);
+        for (int i = 1; i < snakeParts.size(); i++) {
+            SnakePart currentSnakePart = snakeParts.get(i);
+            if (currentSnakePart.getX() == snakeHead.getX()
+                    && currentSnakePart.getY() == snakeHead.getY()) {
+                isBiting = true;
+                break;
+            }
+        }
+        return isBiting;
     }
 }
