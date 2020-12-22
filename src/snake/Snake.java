@@ -15,6 +15,11 @@ public class Snake {
         snakeParts.add(new SnakePart(5, 3));
     }
 
+    /**
+     * method to move snake
+     * <p>
+     * gets called periodically by Controller
+     */
     public void move() {
         /*
          * set new snake head position according to current direction

@@ -16,26 +16,42 @@ public class Controller implements PropertyChangeListener {
         snakeCanvas.addPropertyChangeListener(this);
         this.snake = snake;
         this.frog = frog;
-
     }
 
+    /**
+     * starting the game
+     */
     public void start() {
-        /*
-         * necessary, cause some information (width, height) cannot be accessed by canvas
-         * while still being initialized
-         */
+
         snakeCanvas.init();
+        // set initial frog position
         frog.setRandomPosition(snakeCanvas.getGridWidth(), snakeCanvas.getGridHeight());
 
         running = true;
 
         while (running) {
             snake.move();
+            /*
+             * check if game is over
+             *
+             * if true: exit after delay of 3 seconds
+             */
+            // TODO implement better exit "strategy" or resetting the game
             if (snake.isBitingItself() || snakeCrashesIntoWall()) {
                 System.out.println("Game over!");
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 System.exit(0);
             }
 
+            /*
+             * check if frog has been eaten
+             *
+             * if so: increase length of snake and reset frog to a position not colliding with snake
+             */
             if (snake.getSnakeParts().get(0).getX() == frog.getX() && snake.getSnakeParts().get(0).getY() == frog.getY()) {
                 do {
                     frog.setRandomPosition(snakeCanvas.getGridWidth(), snakeCanvas.getGridHeight());
@@ -44,7 +60,9 @@ public class Controller implements PropertyChangeListener {
                 snake.increaseSnakeLength();
             }
 
+            // repaint the canvas!
             snakeCanvas.update();
+            // main loop
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -60,6 +78,9 @@ public class Controller implements PropertyChangeListener {
                 || snakeHead.getY() >= snakeCanvas.getGridHeight() || snakeHead.getY() < 0;
     }
 
+    /*
+     * gets called when notified by view (SnakeCanvas)
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         snake.setDirection((int) evt.getNewValue());

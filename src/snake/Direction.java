@@ -14,6 +14,12 @@ public enum Direction {
         this.value = value;
     }
 
+    /**
+     * converting a given keyCode to a Direction enum
+     *
+     * @param keyCode they key code given bei KeyEvent
+     * @return the corresponding direction enum
+     */
     public static Direction getDirection(int keyCode) {
         switch (keyCode) {
             case KeyEvent.VK_UP:

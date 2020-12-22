@@ -29,18 +29,37 @@ public class SnakeCanvas extends Canvas implements KeyListener {
         addKeyListener(this);
     }
 
+    /**
+     * has to be called after being created immediately after object has been created
+     * <p>
+     * neccessary to determine values not accessible while instantiating process
+     */
     public void init() {
         paintedWidth = getWidth() - (getWidth() % gridSize);
         paintedHeight = getHeight() - (getHeight() % gridSize);
     }
 
+    /*
+     * main paint method, gets called by update() which is called by controller periodically
+     */
     @Override
     public void paint(Graphics g) {
 
 
         Graphics2D g2 = (Graphics2D) g;
 
-        /*g2.setColor(Color.gray);
+        /*
+         * paint borders
+         */
+        g2.setColor(Color.gray);
+        g2.draw(new Line2D.Double(0, 0, paintedWidth, 0));
+        g2.draw(new Line2D.Double(0, 0, 0, paintedHeight));
+        g2.draw(new Line2D.Double(0, paintedHeight, paintedWidth, paintedHeight));
+        g2.draw(new Line2D.Double(paintedWidth, 0, paintedWidth, paintedHeight));
+
+        /*
+        // paint grid
+        g2.setColor(Color.gray);
         // paint horizontal lines
         for (int i=0; i<paintedHeight; i++) {
             g2.draw(new Line2D.Double(0, i*gridSize, paintedWidth, i*gridSize));
@@ -61,9 +80,10 @@ public class SnakeCanvas extends Canvas implements KeyListener {
 
     }
 
+    /**
+     * repaint the whole canvas after models have been updated
+     */
     public void update() {
-
-
         repaint();
         paint(getGraphics());
     }
@@ -73,10 +93,17 @@ public class SnakeCanvas extends Canvas implements KeyListener {
 
     }
 
+    /*
+     * gets called when a key is pressed on the canvas
+     *
+     * mainly used to determine if snake should change direction, fires off event to controller which then
+     * forces the snake to change direction
+     */
     @Override
     public void keyPressed(KeyEvent e) {
 
         // avoid reacting to other keys than arrow keys
+        // TODO this can be done better...
         if (e.getKeyCode() != KeyEvent.VK_UP
                 && e.getKeyCode() != KeyEvent.VK_DOWN
                 && e.getKeyCode() != KeyEvent.VK_LEFT

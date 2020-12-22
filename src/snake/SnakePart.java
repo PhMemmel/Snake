@@ -10,12 +10,9 @@ public class SnakePart {
     private int oldY;
     private Color color;
 
-    public SnakePart() {
-
-    }
 
     /**
-     * constructor only for head of snake
+     * constructor only for creating the initial snake
      *
      * @param startX starting x position for snake head
      * @param startY starting y position for snake head
@@ -29,6 +26,19 @@ public class SnakePart {
         color = colors[new Random().nextInt(colors.length)];
     }
 
+    /**
+     * contructor for appending new snake parts to an already existing snake
+     */
+    public SnakePart() {
+
+    }
+
+    /**
+     * setting position of snake part, this method saves current position before setting new
+     *
+     * @param x new x position
+     * @param y new y position
+     */
     public void setPosition(int x, int y) {
         oldX = this.x;
         oldY = this.y;
@@ -49,10 +59,21 @@ public class SnakePart {
         return y;
     }
 
+    /**
+     * get x position before current x position
+     *
+     * @return x position before current x position
+     */
     public int getOldX() {
         return oldX;
     }
 
+
+    /**
+     * get y position before current y position
+     *
+     * @return y position before current y position
+     */
     public int getOldY() {
         return oldY;
     }
