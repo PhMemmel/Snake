@@ -11,8 +11,8 @@ public class Snake {
         direction = Direction.RIGHT;
         snakeParts = new ArrayList<>();
         snakeParts.add(new SnakePart(5, 5));
-        snakeParts.add(new SnakePart());
-        snakeParts.add(new SnakePart());
+        snakeParts.add(new SnakePart(5, 4));
+        snakeParts.add(new SnakePart(5, 3));
     }
 
     public void move() {

@@ -1,12 +1,14 @@
 package snake;
 
 import java.awt.*;
+import java.util.Random;
 
 public class SnakePart {
     private int x;
     private int y;
     private int oldX;
     private int oldY;
+    private Color color;
 
     public SnakePart() {
 
@@ -23,6 +25,8 @@ public class SnakePart {
         oldX = startX - 1;
         oldY = startY;
 
+        Color[] colors = {Color.BLACK, Color.BLUE, Color.RED, Color.YELLOW, Color.CYAN, Color.MAGENTA, Color.ORANGE};
+        color = colors[new Random().nextInt(colors.length)];
     }
 
     public void setPosition(int x, int y) {
@@ -34,7 +38,7 @@ public class SnakePart {
 
 
     public Color getColor() {
-        return Color.RED;
+        return color;
     }
 
     public int getX() {
